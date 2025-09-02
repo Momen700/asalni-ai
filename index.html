@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>اسألني - المنهج الفلسطيني</title>
+  <style>
+    body { font-family: Arial; direction: rtl; text-align: center; margin: 50px; }
+    textarea { width: 80%; height: 100px; }
+    button { padding: 10px 20px; margin-top: 10px; }
+    #answer { margin-top: 20px; white-space: pre-wrap; background: #f4f4f4; padding: 15px; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <h1>📘 اسألني</h1>
+  <textarea id="question" placeholder="اكتب سؤالك هنا..."></textarea><br>
+  <button onclick="ask()">ابحث</button>
+  <div id="answer"></div>
+
+  <script>
+    async function ask() {
+      const question = document.getElementById("question").value;
+      const answerBox = document.getElementById("answer");
+      answerBox.innerText = "⏳ جاري البحث...";
+
+      try {
+        const res = await fetch("https://YOUR-APP-NAME.vercel.app/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question })
+        });
+
+        const data = await res.json();
+        answerBox.innerText = data.answer || "❌ لم أجد جواباً.";
+      } catch (err) {
+        answerBox.innerText = "⚠️ خطأ في الاتصال.";
+      }
+    }
+  </script>
+</body>
+</html>
