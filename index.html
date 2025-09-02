@@ -2,19 +2,70 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>اسألني - المنهج الفلسطيني</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>اسألني</title>
   <style>
-    body { font-family: Arial; direction: rtl; text-align: center; margin: 50px; }
-    textarea { width: 80%; height: 100px; }
-    button { padding: 10px 20px; margin-top: 10px; }
-    #answer { margin-top: 20px; white-space: pre-wrap; background: #f4f4f4; padding: 15px; border-radius: 10px; }
+    body {
+      font-family: "Tahoma", sans-serif;
+      text-align: center;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #0077b6;
+      color: white;
+      padding: 20px;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+    main {
+      margin: 40px auto;
+      max-width: 600px;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 80%;
+      padding: 12px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      padding: 12px 18px;
+      font-size: 1em;
+      margin-top: 10px;
+      background: #0077b6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #023e8a;
+    }
+    #answer {
+      margin-top: 20px;
+      font-size: 1.2em;
+      background: #f1f1f1;
+      padding: 15px;
+      border-radius: 10px;
+      min-height: 60px;
+    }
   </style>
 </head>
 <body>
-  <h1>📘 اسألني</h1>
-  <textarea id="question" placeholder="اكتب سؤالك هنا..."></textarea><br>
-  <button onclick="ask()">ابحث</button>
-  <div id="answer"></div>
+  <header>📘 موقع اسألني</header>
+  <main>
+    <h2>اكتب سؤالك:</h2>
+    <input id="question" type="text" placeholder="مثال: ما هي أركان الإسلام؟">
+    <br>
+    <button onclick="ask()">ابحث</button>
+    <div id="answer">💡 هنا سيظهر الجواب</div>
+  </main>
 
   <script>
     async function ask() {
@@ -23,7 +74,7 @@
       answerBox.innerText = "⏳ جاري البحث...";
 
       try {
-        const res = await fetch("https://YOUR-APP-NAME.vercel.app/ask", {
+        const res = await fetch("https://asalni-ai.vercel.app/ask", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ question })
@@ -32,7 +83,7 @@
         const data = await res.json();
         answerBox.innerText = data.answer || "❌ لم أجد جواباً.";
       } catch (err) {
-        answerBox.innerText = "⚠️ خطأ في الاتصال.";
+        answerBox.innerText = "⚠️ خطأ في الاتصال بالخادم.";
       }
     }
   </script>
